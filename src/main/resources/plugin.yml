@@ -1,0 +1,6 @@
+name: Partycreator
+version: '${project.version}'
+main: partycreator.partycreator.Partycreator
+api-version: 1.18
+softdepend: [ Spigot-Party-API-PAF, BattleRoyaleX ]
+description: Creates Party
