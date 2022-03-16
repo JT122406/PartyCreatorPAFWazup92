@@ -13,7 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class PartyMaker implements Listener {
+public class PartyMakerBattleRoyale implements Listener {
 
     private PlayerParty getPAFParty(Player p) {
         PAFPlayer pafPlayer = PAFPlayerManager.getInstance().getPlayer(p.getUniqueId());
