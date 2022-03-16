@@ -24,36 +24,39 @@ public class PartyMakerBattleRoyale implements Listener {
     public void PlayerJoinEvent(PlayerJoinEvent event){
         Player player = event.getPlayer();
         if (getPAFParty(player) != null){  //player is in party
-            if(getPAFParty(player).isLeader(PAFPlayerManager.getInstance().getPlayer(player.getUniqueId()))){ //player is leader
-                Party party = new Party(player, getPAFParty(player).getAllPlayers().size());
-                party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
-                for (PAFPlayer partyplayer : getPAFParty(player).getAllPlayers()) {
-                    if(Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId()) != null){
-                        Player player1 = Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId());
-                        if ((!player1.equals(player) && (!party.players.contains(player1))))
-                            party.join(player1);
-                    }
+            for (Party party: BattleRoyaleX.getInstance().parties) {
+                if (party.players.contains(player)) return;
                 }
-                party.setPrivacy(Enums.PartyPrivacy.INVITE);
-                BattleRoyaleX.getInstance().parties.add(party);
-                BattleRoyaleX.getInstance().updatePartiesInventory();
-            }
-            else
-            {
-                if (Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId()) != null){
-                    Player leader = Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId());
-                    for (Party party: BattleRoyaleX.getInstance().parties) {
-                        if (party.leaderName == leader.getName()){
-                            party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
-                            party.join(player);
-                            party.setPrivacy(Enums.PartyPrivacy.INVITE);
+                    if(getPAFParty(player).isLeader(PAFPlayerManager.getInstance().getPlayer(player.getUniqueId()))){ //player is leader
+                        Party party = new Party(player, getPAFParty(player).getAllPlayers().size());
+                        party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+                        for (PAFPlayer partyplayer : getPAFParty(player).getAllPlayers()) {
+                            if(Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId()) != null){
+                                Player player1 = Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId());
+                                if ((!player1.equals(player) && (!party.players.contains(player1))))
+                                    party.join(player1);
+                            }
                         }
+                        party.setPrivacy(Enums.PartyPrivacy.INVITE);
+                        BattleRoyaleX.getInstance().parties.add(party);
+                        BattleRoyaleX.getInstance().updatePartiesInventory();
                     }
-                    BattleRoyaleX.getInstance().updatePartiesInventory();
-                }
-                //leader isn't online already then it'll be handled by leader class
+                    else
+                    {
+                        if (Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId()) != null){
+                            Player leader = Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId());
+                            for (Party party: BattleRoyaleX.getInstance().parties) {
+                                if (party.leaderName == leader.getName()){
+                                    party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+                                    party.join(player);
+                                    party.setPrivacy(Enums.PartyPrivacy.INVITE);
+                                }
+                            }
+                            BattleRoyaleX.getInstance().updatePartiesInventory();
+                        }
+                        //leader isn't online already then it'll be handled by leader class
+                    }
             }
-        }
         return;
     }
 }

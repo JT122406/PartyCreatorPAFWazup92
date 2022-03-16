@@ -8,12 +8,17 @@ public final class Partycreator extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        Bukkit.getServer().getLogger().info("Using PAF to Make Battle WAZUP92 Parties on join");
         if(Bukkit.getServer().getPluginManager().isPluginEnabled("BattleRoyaleX"))
+        {
+            Bukkit.getLogger().info("Loaded BattleRoyaleX PAF integration (Bungee)");
             Bukkit.getPluginManager().registerEvents(new PartyMakerBattleRoyale(), this);
-
-        if (Bukkit.getServer().getPluginManager().isPluginEnabled("PartyGamesX"));
+        }
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("PartyGamesX"))
+        {
+            Bukkit.getLogger().info("Loaded PartyGamesX PAF integration (Multiarena)");
             Bukkit.getPluginManager().registerEvents(new PartyMakerPartyGames(), this);
+        }
+
     }
 
     @Override
