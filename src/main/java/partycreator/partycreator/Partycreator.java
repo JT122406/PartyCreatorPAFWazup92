@@ -13,11 +13,6 @@ public final class Partycreator extends JavaPlugin {
             Bukkit.getLogger().info("Loaded BattleRoyaleX PAF integration (Bungee)");
             Bukkit.getPluginManager().registerEvents(new PartyMakerBattleRoyale(), this);
         }
-        if (Bukkit.getServer().getPluginManager().isPluginEnabled("PartyGamesX"))
-        {
-            Bukkit.getLogger().info("Loaded PartyGamesX PAF integration (Multiarena)");
-            Bukkit.getPluginManager().registerEvents(new PartyMakerPartyGames(), this);
-        }
 
     }
 

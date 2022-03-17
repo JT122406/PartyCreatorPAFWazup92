@@ -94,12 +94,5 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/BattleRoyaleX.jar</systemPath>
         </dependency>
-        <dependency>
-            <groupId>me.wazup</groupId>
-            <artifactId>PartyGames</artifactId>
-            <version>2.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/PartyGames.jar</systemPath>
-        </dependency>
     </dependencies>
 </project>
