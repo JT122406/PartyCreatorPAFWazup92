@@ -25,10 +25,13 @@ public class PartyMakerBattleRoyale implements Listener {
         Player player = event.getPlayer();
         if (getPAFParty(player) != null){  //player is in party
             for (Party party: BattleRoyaleX.getInstance().parties) {
-                if (party.players.contains(player)) return;
+                for (String playername: party.players) {
+                    if (party.players.contains(player.getName())) return;
+                    }
                 }
+
                     if(getPAFParty(player).isLeader(PAFPlayerManager.getInstance().getPlayer(player.getUniqueId()))){ //player is leader
-                        Party party = new Party(player, getPAFParty(player).getAllPlayers().size());
+                        Party party = new Party(player, 10);
                         party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
                         for (PAFPlayer partyplayer : getPAFParty(player).getAllPlayers()) {
                             if(Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId()) != null){
@@ -36,10 +39,13 @@ public class PartyMakerBattleRoyale implements Listener {
                                 if ((!player1.equals(player) && (!party.players.contains(player1))))
                                     party.join(player1);
                             }
+                            party.updateItem();
+                            party.updatePlayers();
                         }
                         party.setPrivacy(Enums.PartyPrivacy.INVITE);
                         BattleRoyaleX.getInstance().parties.add(party);
                         BattleRoyaleX.getInstance().updatePartiesInventory();
+
                     }
                     else
                     {
