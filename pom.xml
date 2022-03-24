@@ -78,26 +78,14 @@
         <dependency>
             <groupId>de.simonsator</groupId>
             <artifactId>Party-and-Friends-MySQL-Edition-Spigot-API</artifactId>
-            <version>1.5.1</version>
+            <version>1.5.3</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>be.maximvdw</groupId>
-                    <artifactId>MVdWPlaceholderAPI</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>de.simonsator</groupId>
             <artifactId>Spigot-Party-API-For-RedisBungee</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>1.0.3-SNAPSHOT</version>
             <scope>provided</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>be.maximvdw</groupId>
-                    <artifactId>MVdWPlaceholderAPI</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>me.wazup</groupId>
@@ -105,13 +93,6 @@
             <version>2.7</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/lib/BattleRoyaleX.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>me.wazup</groupId>
-            <artifactId>PartyGames</artifactId>
-            <version>2.7</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/PartyGames.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
