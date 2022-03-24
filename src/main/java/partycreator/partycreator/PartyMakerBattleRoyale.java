@@ -6,6 +6,7 @@ import de.simonsator.partyandfriends.spigot.api.party.PartyManager;
 import de.simonsator.partyandfriends.spigot.api.party.PlayerParty;
 import me.wazup.battleroyalex.BattleRoyaleX;
 import me.wazup.battleroyalex.Party;
+import me.wazup.battleroyalex.PlayerData;
 import me.wazup.battleroyalex.utils.Enums;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,44 +26,41 @@ public class PartyMakerBattleRoyale implements Listener {
         Player player = event.getPlayer();
         if (getPAFParty(player) != null){  //player is in party
             for (Party party: BattleRoyaleX.getInstance().parties) {
-                for (String playername: party.players) {
-                    if (party.players.contains(player.getName())) return;
+                if (party.players.contains(player.getName())) return;
+            }
+
+            if(getPAFParty(player).isLeader(PAFPlayerManager.getInstance().getPlayer(player.getUniqueId()))){ //player is leader
+                Party party = new Party(player, 10);
+                PlayerData data = BattleRoyaleX.getInstance().playerData.get(player.getName());
+                data.party = party;
+                BattleRoyaleX.getInstance().parties.add(party);
+                BattleRoyaleX.getInstance().updatePartiesInventory();
+                party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+                for (PAFPlayer partyplayer : getPAFParty(player).getAllPlayers()) {
+                    if(Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId()) != null){
+                        Player player1 = Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId());
+                        if (player1 != null)
+                            if (!party.players.contains(player1.getName())) party.join(player1);
                     }
                 }
-
-                    if(getPAFParty(player).isLeader(PAFPlayerManager.getInstance().getPlayer(player.getUniqueId()))){ //player is leader
-                        Party party = new Party(player, 10);
-                        party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
-                        for (PAFPlayer partyplayer : getPAFParty(player).getAllPlayers()) {
-                            if(Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId()) != null){
-                                Player player1 = Bukkit.getPlayer(partyplayer.getPAFPlayer().getUniqueId());
-                                if ((!player1.equals(player) && (!party.players.contains(player1))))
-                                    party.join(player1);
-                            }
-                            party.updateItem();
-                            party.updatePlayers();
-                        }
-                        party.setPrivacy(Enums.PartyPrivacy.INVITE);
-                        BattleRoyaleX.getInstance().parties.add(party);
-                        BattleRoyaleX.getInstance().updatePartiesInventory();
-
-                    }
-                    else
-                    {
-                        if (Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId()) != null){
-                            Player leader = Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId());
-                            for (Party party: BattleRoyaleX.getInstance().parties) {
-                                if (party.leaderName == leader.getName()){
-                                    party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
-                                    party.join(player);
-                                    party.setPrivacy(Enums.PartyPrivacy.INVITE);
-                                }
-                            }
-                            BattleRoyaleX.getInstance().updatePartiesInventory();
-                        }
-                        //leader isn't online already then it'll be handled by leader class
-                    }
+                party.setPrivacy(Enums.PartyPrivacy.INVITE);
             }
-        return;
+            else
+            {
+                if (Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId()) != null){
+                    Player leader = Bukkit.getPlayer(getPAFParty(player).getLeader().getUniqueId());
+                    for (Party party: BattleRoyaleX.getInstance().parties) {
+                        if (leader != null)
+                            if (party.leaderName.equalsIgnoreCase(leader.getName())){
+                                party.setPrivacy(Enums.PartyPrivacy.PUBLIC);
+                                party.join(player);
+                                party.setPrivacy(Enums.PartyPrivacy.INVITE);
+                            }
+                    }
+                    BattleRoyaleX.getInstance().updatePartiesInventory();
+                }
+                //leader isn't online already then it'll be handled by leader class
+            }
+        }
     }
 }
